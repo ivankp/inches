@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const body = document.body;
 
   const input = $(body, 'input', { type: 'text' });
-  const div = $(body, 'div');
+  const div = $(body, 'div', ['noto']);
 
   input.focus();
   $(input, { events: {
@@ -139,15 +139,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return str.trim();
       }
-      $(div, 'p').textContent = ft_in_fracs();
+      const str1 = ft_in_fracs();
+      $(div, 'p').textContent = str1;
 
-      split[3] += split[2] * fracs[3]; split[2] = 0;
-      split[4] += split[3] * fracs[4]; split[3] = 0;
-      split[4] += split[5] / fracs[5];
-
-      const in8 = split[4];
-      split[5] = round((in8 - (split[4] = Math.round(in8))) * fracs[5], 2);
-      // TODO: choose sign that reduces denominator
+      split[4] += (split[2]*2 + split[3])*2;
+      split[3] = 0;
+      split[2] = 0;
+      if (split[5] > 1) {
+        ++split[4];
+        split[5] = `− ${round(2 - split[5], 2)}`;
+      }
 
       for (let i = 4; i; --i) {
         if (split[i] % fracs[i] === 0) {
@@ -155,7 +156,11 @@ document.addEventListener('DOMContentLoaded', () => {
           split[i] = 0;
         } else break;
       }
-      $(div, 'p').textContent = ft_in_fracs();
+
+      const str2 = ft_in_fracs();
+      if (str2 != str1) {
+        $(div, 'p').textContent = str2;
+      }
     }
   }});
 });
