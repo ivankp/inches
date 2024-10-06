@@ -1,8 +1,5 @@
 const $ = (p,...args) => {
-  if (p===null) {
-    const x = args.shift();
-    p = document.createElement(x);
-  } else if (p.constructor === String) {
+  if (p.constructor === String) {
     p = document.getElementById(p);
   }
   for (let x of args) {
@@ -88,10 +85,8 @@ const last = xs => xs[xs.length - 1];
 const round = (x,n) => x.toFixed(n).replace(/\.?0+$/,'');
 
 document.addEventListener('DOMContentLoaded', () => {
-  const body = document.body;
-
-  const input = $(body, 'input', { type: 'text' });
-  const div = $(body, 'div', ['noto']);
+  const input = $(document.body, 'input', { type: 'text' });
+  const div = $(document.body, 'div', ['noto']);
 
   input.focus();
   $(input, { events: {
